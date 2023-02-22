@@ -6,7 +6,7 @@ import "components/InterviewerListItem.scss"
 export default function InterviewerListItem(props) {
   console.log(props);
 
-  const [selected, setSelected] = useState();
+  const [interviewer, setInterviewer] = useState();
 
   const interviewerClass = classNames("interviewers__item", {
     "interviewers__item--selected":props.selected,
@@ -20,7 +20,10 @@ export default function InterviewerListItem(props) {
 
 
   return (
-    <li className={interviewerClass} onClick={() => setSelected(props.id)}>
+    <li id={interviewer} 
+      className={interviewerClass} 
+      onClick={() => props.setInterviewer(props.id)}
+    >
       <img 
         className="interviewers__item-image" 
         src={props.avatar}
