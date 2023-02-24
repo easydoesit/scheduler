@@ -1,10 +1,9 @@
 import React from "react";
 
 export default function Empty(props) {
-  console.log(props)
-  return(
+  return (
     <main className="appointment__add">
-      <img 
+      <img
         className="appointment__add-button"
         src="images/add.png"
         alt="Add"

@@ -5,12 +5,8 @@ import Show from "./Show.jsx";
 import Empty from "./Empty.jsx";
 
 export default function Appointment(props) {
-  console.log("appointment: ", props);
-
   const interview = {...props.interview};
   
-  console.log("interview", interview); 
-
   const checkInterviewer = () => {
     if (interview.interviewer) {
       return <Show  />

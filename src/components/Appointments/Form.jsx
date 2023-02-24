@@ -4,7 +4,6 @@ import InterviewerList from "components/InterviewerList.jsx";
 import Button from "components/Button.jsx";
 
 export default function Form(props) {
-  console.log("these props: ", props);
 
   const [student, setStudent] = useState(props.student || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
