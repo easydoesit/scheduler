@@ -1,5 +1,5 @@
 // returns an array of appointments given a state object and a day "string"
-export function getAppointmentsForDay(state, day) {
+export default function getAppointmentsForDay(state, day) {
   const slots = [];
 
   if (state.days.length) {
@@ -12,6 +12,7 @@ export function getAppointmentsForDay(state, day) {
       
       appointmentsArr.map((appt) => {
       slots.push(state.appointments[appt]);
+      return slots;
       })
     
     }

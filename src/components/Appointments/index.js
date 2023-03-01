@@ -5,17 +5,19 @@ import Show from "./Show.jsx";
 import Empty from "./Empty.jsx";
 
 export default function Appointment(props) {
-  const interview = {...props.interview};
-  
+  const interview = { ...props.interview }
+
   const checkInterviewer = () => {
     if (interview.interviewer) {
-      return <Show  />
+      return <Show
+        student={props.interview.student}
+      />
     }
     return <Empty />
   }
 
 
-  return(
+  return (
     <article className="appointment">
       <Header time={props.time} />
       {checkInterviewer()}

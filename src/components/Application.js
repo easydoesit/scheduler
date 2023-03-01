@@ -2,64 +2,41 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import DayList from "./DayList";
 import Appointment from "./Appointments";
+import getAppointmentsForDay from "../helpers/selectors";
 
 import "components/Application.scss";
 
-const appointments = {
-  "1": {
-    id: 1,
-    time: "12pm",
-  },
-  "2": {
-    id: 2,
-    time: "1pm",
-    interview: {
-      student: "Lydia Miller-Jones",
-      interviewer:{
-        id: 3,
-        name: "Sylvia Palmer",
-        avatar: "https://i.imgur.com/LpaY82x.png",
-      }
-    }
-  },
-  "3": {
-    id: 3,
-    time: "2pm",
-  },
-  "4": {
-    id: 4,
-    time: "3pm",
-    interview: {
-      student: "Archie Andrews",
-      interviewer:{
-        id: 4,
-        name: "Cohana Roy",
-        avatar: "https://i.imgur.com/FK8V841.jpg",
-      }
-    }
-  },
-  "5": {
-    id: 5,
-    time: "4pm",
-  }
-};
-
 export default function Application(props) {
+  // this is the host machine
+  const host = "http://localhost:8001";
+
+  // State object for the entire app
   const [state, setState] = useState({
     day: "Monday",
     days: [],
     appointments: {}
   });
 
+  // This function will set the day in state
   const setDay = day => setState({ ...state, day });
-  const setDays = days => setState(prev => ({ ...prev, days }));
 
+  // call imported helper function
+  const dailyAppointments = getAppointmentsForDay(state, state.day);
+
+  // use a promise inside UseEffect to make a single call to the API
+  // This is the initial render of the app before we modify the states
   useEffect(() => {
-    axios.get("http://localhost:8001/api/days")
-    .then((response) => {
-      setDays([...response.data]);
-    })
-  },[])
+    Promise.all([
+      axios.get(`${host}/api/days`),
+      axios.get(`${host}/api/appointments`),
+      //axios.get(`${host}/api/interviewers`)
+    ]).then((all) => {
+      console.log(all);
+      setState((prev) => {
+        return { ...prev, days: all[0].data, appointments: all[1].data }
+      });
+    },);
+  }, [])
 
   return (
     <main className="layout">
@@ -74,8 +51,8 @@ export default function Application(props) {
           <DayList
             days={state.days}
             value={state.day}
-            onChange={setDay}
-            />
+            setDay={setDay}
+          />
         </nav>
         <img
           className="sidebar__lhl sidebar--centered"
@@ -83,15 +60,16 @@ export default function Application(props) {
           alt="Lighthouse Labs"
         />
       </section>
+
       <section className="schedule">
-        
-        {Object.values(appointments).map((appointment) => 
-          <Appointment 
-            key={appointment.id} 
+        {/* map all the appointments so they can be read by the appoinment component*/}
+        {dailyAppointments.map((appointment) =>
+          < Appointment
+            key={appointment.id}
             {...appointment}
           />
         )}
-  <Appointment key="last" time="5pm" />
+        <Appointment key="last" time="5pm" />
 
         {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
       </section>
