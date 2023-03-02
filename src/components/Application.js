@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import DayList from "./DayList";
 import Appointment from "./Appointments";
-import getAppointmentsForDay from "../helpers/selectors";
+import { getAppointmentsForDay, getInterview } from "../helpers/selectors";
 
 import "components/Application.scss";
 
@@ -14,7 +14,8 @@ export default function Application(props) {
   const [state, setState] = useState({
     day: "Monday",
     days: [],
-    appointments: {}
+    appointments: {},
+    interviewers: {}
   });
 
   // This function will set the day in state
@@ -23,20 +24,35 @@ export default function Application(props) {
   // call imported helper function
   const dailyAppointments = getAppointmentsForDay(state, state.day);
 
+  const schedule = dailyAppointments.map((appoinment) => {
+    const interview = getInterview(state, appointment.interview);
+
+    return (
+      <Appointment
+        key={appointment.id}
+        id={appointment.id}
+        time={appointment.time}
+        interview={interview}
+      />
+    )
+  });
+
   // use a promise inside UseEffect to make a single call to the API
   // This is the initial render of the app before we modify the states
   useEffect(() => {
     Promise.all([
       axios.get(`${host}/api/days`),
       axios.get(`${host}/api/appointments`),
-      //axios.get(`${host}/api/interviewers`)
+      axios.get(`${host}/api/interviewers`)
     ]).then((all) => {
-      console.log(all);
+      console.log('all: ', all);
       setState((prev) => {
-        return { ...prev, days: all[0].data, appointments: all[1].data }
+        return { ...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data }
       });
     },);
   }, [])
+  console.log("state", state);
+  console.log("state.interviewers", state.interviewers);
 
   return (
     <main className="layout">
