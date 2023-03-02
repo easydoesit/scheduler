@@ -24,7 +24,7 @@ export default function Application(props) {
   // call imported helper function
   const dailyAppointments = getAppointmentsForDay(state, state.day);
 
-  const schedule = dailyAppointments.map((appoinment) => {
+  const schedule = dailyAppointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
 
     return (
@@ -36,7 +36,6 @@ export default function Application(props) {
       />
     )
   });
-
   // use a promise inside UseEffect to make a single call to the API
   // This is the initial render of the app before we modify the states
   useEffect(() => {
@@ -53,7 +52,7 @@ export default function Application(props) {
   }, [])
   console.log("state", state);
   console.log("state.interviewers", state.interviewers);
-
+  console.log('schedule: ', schedule)
   return (
     <main className="layout">
       <section className="sidebar">
@@ -79,15 +78,14 @@ export default function Application(props) {
 
       <section className="schedule">
         {/* map all the appointments so they can be read by the appoinment component*/}
-        {dailyAppointments.map((appointment) =>
+        {/* {dailyAppointments.map((appointment) =>
           < Appointment
             key={appointment.id}
             {...appointment}
           />
-        )}
+        )} */}
+        {schedule}
         <Appointment key="last" time="5pm" />
-
-        {/* Replace this with the schedule elements durint the "The Scheduler" activity. */}
       </section>
     </main>
   );
