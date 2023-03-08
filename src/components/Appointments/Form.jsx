@@ -4,7 +4,7 @@ import InterviewerList from "components/InterviewerList.jsx";
 import Button from "components/Button.jsx";
 
 export default function Form(props) {
-
+  console.log("FORM PROPS:", props);
   const [student, setStudent] = useState(props.student || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
 
@@ -40,6 +40,7 @@ export default function Form(props) {
           onChange={setInterviewer}
         />
       </section>
+
       <section className="appointment__card-right">
         <section className="appointment__actions">
           <Button danger onClick={cancel}>Cancel</Button>

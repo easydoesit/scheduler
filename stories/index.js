@@ -36,34 +36,34 @@ storiesOf("Button", module)
   ));
 
 storiesOf("DayListItem", module)
-    .addParameters({
-      backgrounds:[{ name: "dark", value:"#222f3e", default: true}]
-    })
-    .add("Unselected", () => <DayListItem name="Monday" spots={5}/>)
-    .add("Selected", () => <DayListItem name="Monday" spots={5} selected/>)
-    .add("Full", ()=> <DayListItem name="Monday" spots={0} />)
-    .add("Clickable", () => (
-      <DayListItem name="Tuesday" setDay={action("setDay")} spots={5} />
-    ));
+  .addParameters({
+    backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
+  })
+  .add("Unselected", () => <DayListItem name="Monday" spots={5} />)
+  .add("Selected", () => <DayListItem name="Monday" spots={5} selected />)
+  .add("Full", () => <DayListItem name="Monday" spots={0} />)
+  .add("Clickable", () => (
+    <DayListItem name="Tuesday" setDay={action("setDay")} spots={5} />
+  ));
 
-    const days = [
-      {
-        id: 1,
-        name: "Monday",
-        spots: 2,
-      },
-      {
-        id: 2,
-        name: "Tuesday",
-        spots: 5,
-      },
-      {
-        id: 3,
-        name: "Wednesday",
-        spots: 0,
-      },
-    ];
-    
+const days = [
+  {
+    id: 1,
+    name: "Monday",
+    spots: 2,
+  },
+  {
+    id: 2,
+    name: "Tuesday",
+    spots: 5,
+  },
+  {
+    id: 3,
+    name: "Wednesday",
+    spots: 0,
+  },
+];
+
 storiesOf("DayList", module)
   .addParameters({
     backgrounds: [{ name: "dark", value: "#222f3e", default: true }],
@@ -75,15 +75,15 @@ storiesOf("DayList", module)
     <DayList days={days} value={"Tuesday"} onChange={action("setDay")} />
   ))
   .add("Wednesday", () => (
-      <DayList days={days} value={"Wednesday"} onChange={action("setDay")} />
+    <DayList days={days} value={"Wednesday"} onChange={action("setDay")} />
   ));
 
-  const interviewer = {
-    id: 1,
-    name: "Sylvia Palmer",
-    avatar: "https://i.imgur.com/LpaY82x.png"
-  };
-      
+const interviewer = {
+  id: 1,
+  name: "Sylvia Palmer",
+  avatar: "https://i.imgur.com/LpaY82x.png"
+};
+
 storiesOf("InterviewerListItem", module)
   .addParameters({
     backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
@@ -111,14 +111,14 @@ storiesOf("InterviewerListItem", module)
     />
   ));
 
-  const interviewers = [
-    { id: 1, name: "Sylvia Palmer", avatar: "https://i.imgur.com/LpaY82x.png" },
-    { id: 2, name: "Tori Malcolm", avatar: "https://i.imgur.com/Nmx0Qxo.png" },
-    { id: 3, name: "Mildred Nazir", avatar: "https://i.imgur.com/T2WwVfS.png" },
-    { id: 4, name: "Cohana Roy", avatar: "https://i.imgur.com/FK8V841.jpg" },
-    { id: 5, name: "Sven Jones", avatar: "https://i.imgur.com/twYrpay.jpg" }
-  ];
-        
+const interviewers = [
+  { id: 1, name: "Sylvia Palmer", avatar: "https://i.imgur.com/LpaY82x.png" },
+  { id: 2, name: "Tori Malcolm", avatar: "https://i.imgur.com/Nmx0Qxo.png" },
+  { id: 3, name: "Mildred Nazir", avatar: "https://i.imgur.com/T2WwVfS.png" },
+  { id: 4, name: "Cohana Roy", avatar: "https://i.imgur.com/FK8V841.jpg" },
+  { id: 5, name: "Sven Jones", avatar: "https://i.imgur.com/twYrpay.jpg" }
+];
+
 storiesOf("InterviewerList", module)
   .addParameters({
     backgrounds: [{ name: "dark", value: "#222f3e", default: true }]
@@ -143,28 +143,28 @@ storiesOf("InterviewerList", module)
 
 storiesOf("Appointment", module)
   .addParameters({
-    backgrounds:[{ name: "white", value:"fff", default: true}]
+    backgrounds: [{ name: "white", value: "fff", default: true }]
   })
   .add("Appointment", () => (
     <Appointment />
   ))
   .add("Appointment with Time", () => (
-    <Appointment 
+    <Appointment
       time="12pm"
     />
   ))
   .add("Header", () => (
-      <Header
-        time="12pm" 
-      />
+    <Header
+      time="12pm"
+    />
   ))
   .add("Empty", () => (
     <Empty
-    onAdd={action("onAdd")} 
+      onAdd={action("onAdd")}
     />
   ))
   .add("Show", () => (
-    <Show 
+    <Show
       student="Lydia Miller-Jones"
       interviewer={interviewer}
       onEdit={action("onEdit")}
@@ -172,25 +172,25 @@ storiesOf("Appointment", module)
     />
   ))
   .add("Confirm", () => (
-    <Confirm 
+    <Confirm
       message="Delete the appointment?"
       onConfirm={action("onConfirm")}
       onCancel={action("onCancel")}
     />
   ))
   .add("Status", () => (
-    <Status 
+    <Status
       message="Deleting"
     />
   ))
   .add("Error", () => (
-    <Error 
+    <Error
       message="Could not delete appointment"
-      onClose={action("onClose")}  
+      onClose={action("onClose")}
     />
   ))
   .add("Form-Edit", () => (
-    <Form 
+    <Form
       student="Archie Cohen"
       interviewer={interviewer.id}
       interviewers={interviewers}
@@ -199,7 +199,7 @@ storiesOf("Appointment", module)
     />
   ))
   .add("Form-Create", () => (
-    <Form 
+    <Form
       interviewers={interviewers}
       onSave={action("onSave")}
       onCancel={action("onCancel")}

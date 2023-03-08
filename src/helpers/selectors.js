@@ -21,6 +21,29 @@ export function getAppointmentsForDay(state, day) {
   return slots;
 }
 
+export function getInterviewersForDay(state, day) {
+  const slots = [];
+
+  if (state.days.length) {
+
+    const filteredDays = state.days.filter(days => days.name === day);
+    let appointmentsArr;
+
+    if (filteredDays.length) {
+      appointmentsArr = filteredDays[0].interviewers;
+      console.log("appointmentsARR:", appointmentsArr);
+      appointmentsArr.map((appt) => {
+        slots.push(state.interviewers[appt]);
+        return slots;
+      })
+
+    }
+  }
+  console.log("slot", slots);
+  return slots;
+}
+
+// returns the interview object from the state if given an interview object.
 export function getInterview(state, interview) {
 
   if (!interview || Object.keys(interview).length === 0) {
