@@ -9,13 +9,14 @@ import Status from "./Status.jsx";
 import Confirm from "./Confirm.jsx";
 
 export default function Appointment(props) {
-  //console.log("Appointment props", props);
+  console.log("Appointment props", props);
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
   const SAVING = "SAVING";
   const DELETE = "DELETE";
-  const CONFIRM = "CONFIRM"
+  const CONFIRM = "CONFIRM";
+  const EDIT = "EDIT";
   const interview = { ...props.interview }
   //console.log('interview', interview);
 
@@ -47,6 +48,10 @@ export default function Appointment(props) {
     transition(CONFIRM);
   }
 
+  const onEdit = () => {
+    console.log("edit button pressed");
+    transition(EDIT);
+  }
 
   return (
     <article className="appointment">
@@ -62,7 +67,7 @@ export default function Appointment(props) {
             key={interview.interviewer.id}
             id={interview.interviewer.id}
             name={interview.interviewer.name}
-            onEdit={() => console.log("Clicked On Edit")}
+            onEdit={() => onEdit()}
             onDelete={() => onConfirm()}
           //onDelete={() => onDelete(props.id)}
           />
@@ -86,6 +91,15 @@ export default function Appointment(props) {
           message="Are you sure you would like to delete?"
           onConfirm={onDelete}
           id={props.id}
+        />
+      )}
+      {mode === EDIT && (
+        <Form
+          interviewers={props.interviewers}
+          student={interview.student}
+          interviewer={interview.interviewer.id}
+          onSave={save}
+          onCancel={() => back(EMPTY)}
         />
       )}
 
