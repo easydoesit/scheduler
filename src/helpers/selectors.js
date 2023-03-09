@@ -31,7 +31,7 @@ export function getInterviewersForDay(state, day) {
 
     if (filteredDays.length) {
       appointmentsArr = filteredDays[0].interviewers;
-      console.log("appointmentsARR:", appointmentsArr);
+      //console.log("appointmentsARR:", appointmentsArr);
       appointmentsArr.map((appt) => {
         slots.push(state.interviewers[appt]);
         return slots;
@@ -39,7 +39,7 @@ export function getInterviewersForDay(state, day) {
 
     }
   }
-  console.log("slot", slots);
+  //console.log("slot", slots);
   return slots;
 }
 

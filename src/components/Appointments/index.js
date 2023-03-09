@@ -5,15 +5,19 @@ import Show from "./Show.jsx";
 import Empty from "./Empty.jsx";
 import useVisualMode from "hooks/useVisualMode.js";
 import Form from "./Form.jsx";
-
+import Status from "./Status.jsx";
+import Confirm from "./Confirm.jsx";
 
 export default function Appointment(props) {
-  console.log("Appointment props", props);
+  //console.log("Appointment props", props);
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
+  const SAVING = "SAVING";
+  const DELETE = "DELETE";
+  const CONFIRM = "CONFIRM"
   const interview = { ...props.interview }
-  console.log('interview', interview);
+  //console.log('interview', interview);
 
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
@@ -21,29 +25,26 @@ export default function Appointment(props) {
 
   // name is the student name from the Form and interviewer is the ID of the Selected Inteviewer
 
-  // const save = (name, interviewer) => {
-  //   const interview = {
-  //     student: name,
-  //     interviewer,
-  //   };
-  //   //transition(SAVE);
-  //   props.bookInterview(props.id, interview)
-  //     .then(() => {
-  //       transition(SHOW);
-  //       // console.log("useVisualMode index state is ", props.days[id]);
-  //     })
-  //     .catch((error) => console.log(error));
-  // };
-
   const save = (name, interviewer) => {
-    console.log("WTF", interviewer);
     const interview = {
       student: name,
       interviewer
     }
+    transition(SAVING);
     props.bookInterview(props.id, interview)
       .then(() => { transition(SHOW) })
       .catch((error) => console.log(error));
+  }
+
+  const onDelete = (id) => {
+    transition(DELETE);
+    props.deleteInterview(id)
+      .then(() => { transition(EMPTY) })
+      .catch((error) => console.log(error));
+  }
+
+  const onConfirm = () => {
+    transition(CONFIRM);
   }
 
 
@@ -62,7 +63,8 @@ export default function Appointment(props) {
             id={interview.interviewer.id}
             name={interview.interviewer.name}
             onEdit={() => console.log("Clicked On Edit")}
-            onDelete={() => console.log("Clicked On Delete")}
+            onDelete={() => onConfirm()}
+          //onDelete={() => onDelete(props.id)}
           />
         )
       }
@@ -73,6 +75,20 @@ export default function Appointment(props) {
           onCancel={() => back(EMPTY)}
         />
       )}
+      {mode === SAVING && (
+        <Status message={SAVING} />
+      )}
+      {mode === DELETE && (
+        <Status message={DELETE} />
+      )}
+      {mode === CONFIRM && (
+        <Confirm
+          message="Are you sure you would like to delete?"
+          onConfirm={onDelete}
+          id={props.id}
+        />
+      )}
+
     </article>
   )
 };

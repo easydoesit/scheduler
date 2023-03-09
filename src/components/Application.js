@@ -26,10 +26,9 @@ export default function Application(props) {
 
   // This function will set the day in state
   const setDay = day => setState({ ...state, day });
-
-
-
+  //book interview takes in the appointment id and the interview object.
   const bookInterview = (id, interview) => {
+
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -38,37 +37,37 @@ export default function Application(props) {
       ...state.appointments,
       [id]: appointment
     };
-    return axios
-      .put(`http://localhost:8001/api/appointments/${id}`, { interview })
-      .then(() => {
+
+    return axios.put(`${host}/api/appointments/${id}`, { interview })
+      .then((response) => {
         setState({
           ...state,
           appointments
         });
       });
-  };
+  }
 
-  // const bookInterview = (id, interview) => {
-  //   console.log("bookInterview ID: ", id)
-  //   console.log("bookInterview interview: ", interview)
-  //   const appointment = {
-  //     ...state.appointments[id],
-  //     interview: { ...interview }
-  //   };
-  //   const appointments = {
-  //     ...state.appointments,
-  //     [id]: appointment
-  //   };
-  //   console.log("bookInterview", id, interview);
+  const deleteInterview = (id) => {
+    console.log("delete.interview: ", id);
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    console.log("hello world", appointments);
+    console.log("abcd", appointment);
 
-  //   return axios.put(`${host}/api/appointments/${id}`, { interview })
-  //     .then((response) => {
-  //       setState({
-  //         ...state,
-  //         appointments
-  //       });
-  //     });
-  // }
+    return axios.delete(`${host}/api/appointments/${id}`)
+      .then((response) => {
+        setState({
+          ...state,
+          appointments
+        });
+      })
+  }
 
   // call imported helper function
   const dailyAppointments = getAppointmentsForDay(state, state.day);
@@ -85,6 +84,7 @@ export default function Application(props) {
         time={appointment.time}
         interview={interview}
         bookInterview={bookInterview}
+        deleteInterview={deleteInterview}
         interviewers={interviewers}
 
       />
