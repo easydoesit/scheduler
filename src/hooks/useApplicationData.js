@@ -18,10 +18,10 @@ export default function useApplicationData() {
     },
     interviewers: {}
   });
-  // console.log("begin render");
-  // console.log("state", state);
+
   // This function will set the day in state
   const setDay = day => setState({ ...state, day });
+
   //book interview takes in the appointment id and the interview object.
   const bookInterview = (id, interview) => {
 
@@ -35,15 +35,14 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
+    // calculate the state of spots based on the day
     const day = changeSpots(state, appointments);
-    // console.log("spots", spots);
-    // console.log("days id", spots.id);
     const days = [
       ...state.days,
     ]
     days[day.id - 1] = day;
-    console.log("Add setState: ", days);
 
+    //update the database and setState
     return axios.put(`${host}/api/appointments/${id}`, { interview })
       .then((response) => {
         setState({
@@ -53,6 +52,7 @@ export default function useApplicationData() {
       });
   }
 
+  //delete interview takes in the appointment id
   const deleteInterview = (id) => {
     const appointment = {
       ...state.appointments[id],
@@ -63,18 +63,14 @@ export default function useApplicationData() {
       [id]: appointment
     };
 
+    // calculate the state of spots based on the day
     const day = changeSpots(state, appointments);
-    // console.log("spots", spots);
-    // console.log("days id", spots.id);
     const days = [
       ...state.days,
     ]
     days[day.id - 1] = day;
 
-    console.log("Delete setState: ", days);
-
-
-
+    //update the database and set state
     return axios.delete(`${host}/api/appointments/${id}`)
       .then((response) => {
         setState({
