@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
+import { changeSpots } from "helpers/changeSpots";
+
 export default function useApplicationData() {
   // this is the host machine
   const host = "http://localhost:8001";
@@ -16,7 +18,8 @@ export default function useApplicationData() {
     },
     interviewers: {}
   });
-
+  // console.log("begin render");
+  // console.log("state", state);
   // This function will set the day in state
   const setDay = day => setState({ ...state, day });
   //book interview takes in the appointment id and the interview object.
@@ -26,22 +29,31 @@ export default function useApplicationData() {
       ...state.appointments[id],
       interview: { ...interview }
     };
+
     const appointments = {
       ...state.appointments,
       [id]: appointment
     };
 
+    const day = changeSpots(state, appointments);
+    // console.log("spots", spots);
+    // console.log("days id", spots.id);
+    const days = [
+      ...state.days,
+    ]
+    days[day.id - 1] = day;
+    console.log("Add setState: ", days);
+
     return axios.put(`${host}/api/appointments/${id}`, { interview })
       .then((response) => {
         setState({
           ...state,
-          appointments
+          appointments, days
         });
       });
   }
 
   const deleteInterview = (id) => {
-    console.log("delete.interview: ", id);
     const appointment = {
       ...state.appointments[id],
       interview: null
@@ -50,14 +62,24 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment
     };
-    console.log("hello world", appointments);
-    console.log("abcd", appointment);
+
+    const day = changeSpots(state, appointments);
+    // console.log("spots", spots);
+    // console.log("days id", spots.id);
+    const days = [
+      ...state.days,
+    ]
+    days[day.id - 1] = day;
+
+    console.log("Delete setState: ", days);
+
+
 
     return axios.delete(`${host}/api/appointments/${id}`)
       .then((response) => {
         setState({
           ...state,
-          appointments
+          appointments, days
         });
       })
   }
@@ -70,7 +92,6 @@ export default function useApplicationData() {
       axios.get(`${host}/api/appointments`),
       axios.get(`${host}/api/interviewers`)
     ]).then((all) => {
-      console.log('all: ', all);
       setState((prev) => {
         return { ...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data }
       });

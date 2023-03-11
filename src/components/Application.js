@@ -14,7 +14,6 @@ export default function Application(props) {
     bookInterview,
     deleteInterview
   } = useApplicationData();
-  console.log("wdt", state.day)
   // call imported helper function
   const dailyAppointments = getAppointmentsForDay(state, state.day);
 
@@ -37,9 +36,6 @@ export default function Application(props) {
     )
   });
 
-  // console.log("state", state);
-  // console.log("state.interviewers", state.interviewers);
-  // console.log('schedule: ', schedule)
 
   return (
     <main className="layout">

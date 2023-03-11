@@ -10,7 +10,6 @@ import Confirm from "./Confirm.jsx";
 import Error from "./Error.jsx";
 
 export default function Appointment(props) {
-  //console.log("Appointment props", props);
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
@@ -21,12 +20,12 @@ export default function Appointment(props) {
   const ERROR_SAVE = "ERROR_SAVE";
   const ERROR_DELETE = "ERROR_DELETE";
   const interview = { ...props.interview }
-  //console.log('interview', interview);
+
 
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   )
-  console.log("mode: ", mode);
+
   // name is the student name from the Form and interviewer is the ID of the Selected Inteviewer
 
   const save = (name, interviewer) => {
@@ -34,14 +33,15 @@ export default function Appointment(props) {
       student: name,
       interviewer
     }
-    transition(SAVING);
-    props.bookInterview(props.id, interview)
-      .then(() => { transition(SHOW) })
-      .catch((error) => {
-        console.log(error);
-        transition(ERROR_SAVE, true);
-        console.log("mode: ", mode);
-      });
+    //must check that an interviewer has been selected otherwise errors
+    if (interview.interviewer) {
+      transition(SAVING);
+      props.bookInterview(props.id, interview)
+        .then(() => { transition(SHOW) })
+        .catch((error) => {
+          transition(ERROR_SAVE, true);
+        });
+    }
   }
 
   const onDelete = (id) => {
@@ -49,7 +49,6 @@ export default function Appointment(props) {
     props.deleteInterview(id)
       .then(() => { transition(EMPTY) })
       .catch((error) => {
-        console.log(error);
         transition(ERROR_DELETE, true);
       })
   }
@@ -59,9 +58,7 @@ export default function Appointment(props) {
   }
 
   const onEdit = () => {
-    console.log("edit button pressed");
     transition(EDIT);
-    console.log("mode: ", mode);
   }
 
   const onClose = () => {

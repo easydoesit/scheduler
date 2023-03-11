@@ -4,10 +4,8 @@ import InterviewerList from "components/InterviewerList.jsx";
 import Button from "components/Button.jsx";
 
 export default function Form(props) {
-  console.log("FORM PROPS:", props);
   const [student, setStudent] = useState(props.student || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
-  console.log("interviewer", interviewer);
   const reset = () => {
     setStudent("");
     setInterviewer(null);
