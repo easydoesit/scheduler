@@ -20,7 +20,7 @@ export function changeSpots(state, apps) {
     spots = spots + nullCheck[i]
   }
   thisDay.spots = spots;
-  console.log(thisDay);
+  //console.log(thisDay);
   return thisDay;
 
 }

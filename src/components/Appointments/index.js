@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "components/Appointments/styles.scss"
 import Header from "./Header.jsx";
 import Show from "./Show.jsx";
@@ -25,8 +25,32 @@ export default function Appointment(props) {
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   )
+  console.log("reREnder", interview, mode);
+  // useEffect(() => {
+  //   console.log(interview, mode, props.time);
+  //   console.log("---------");
+  //   if (interview.interviewer && mode === EMPTY) {
+  //     transition(SHOW);
+  //   }
+  //   if ((interview === null || interview === {} || !interview) && mode === SHOW) {
+  //     transition(EMPTY);
+  //   }
+  // }, [interview, transition, mode]);
+
 
   // name is the student name from the Form and interviewer is the ID of the Selected Inteviewer
+
+  useEffect(() => {
+    if (interview.interviewer && mode === EMPTY) {
+      transition(SHOW);
+      return;
+    }
+    if ((Object.keys(interview).length === 0 || !interview) && mode === SHOW) {
+      transition(EMPTY);
+      return;
+    }
+  }, [transition, props.interview]);
+
 
   const save = (name, interviewer) => {
     const interview = {
@@ -65,26 +89,25 @@ export default function Appointment(props) {
     back();
   }
 
+
   return (
+
     <article className="appointment">
       <Header time={props.time} />
-      {/*checkInterviewer()*/}
 
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
-      {
-        mode === SHOW && (
-          <Show
-            student={interview.student}
-            interviewer={interview.interviewer}
-            key={interview.interviewer.id}
-            id={interview.interviewer.id}
-            name={interview.interviewer.name}
-            onEdit={() => onEdit()}
-            onDelete={() => onConfirm()}
-          //onDelete={() => onDelete(props.id)}
-          />
-        )
-      }
+      {mode === SHOW && interview && (
+        <Show
+          student={interview.student}
+          interviewer={interview.interviewer}
+          key={interview.interviewer && interview.interviewer.id}
+          id={interview.interviewer && interview.interviewer.id}
+          name={interview.interviewer && interview.interviewer.name}
+          onEdit={() => onEdit()}
+          onDelete={() => onConfirm()}
+
+        />
+      )}
       {mode === CREATE && (
         <Form
           interviewers={props.interviewers}
@@ -130,4 +153,5 @@ export default function Appointment(props) {
 
     </article>
   )
+
 };

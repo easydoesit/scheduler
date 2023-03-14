@@ -7,6 +7,7 @@ import useApplicationData from "hooks/useApplicationData";
 import "components/Application.scss";
 
 export default function Application(props) {
+  console.log(props);
   // bring in the hook to manage state.
   const {
     state,
