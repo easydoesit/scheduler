@@ -4,8 +4,6 @@ export function changeSpots(state, apps, appointmentID) {
   let thisDay = state.days.filter(day => day.appointments.find(appt => appt === appointmentID) === appointmentID);;
   thisDay = thisDay[0];
 
-  console.log("thisday", thisDay);
-
   // check for null values and put into an array
   const nullCheck = thisDay.appointments.map(i => {
     let count = 0;
@@ -22,7 +20,6 @@ export function changeSpots(state, apps, appointmentID) {
   }
 
   thisDay.spots = spots;
-  console.log(thisDay);
   return thisDay;
 
 }

@@ -148,32 +148,30 @@ export default function useApplicationData() {
     const webSocket = new WebSocket(url);
 
     webSocket.onopen = () => {
-      console.log("stateday 01 ", state.days)
       webSocket.send("ping");
     }
     // once the message comes back from the server change it to a state that can update
     // the interview.
     webSocket.onmessage = (event) => {
-      console.log("stateday 02 ", state.days)
       if (event.data !== 'pong') {
         // what if we return only returnObj
         // then
         const returnObj = JSON.parse(event.data);
-        console.log("return", returnObj);
+
         if (returnObj.type === SET_INTERVIEW) {
           const appointments = {
             ...state.appointments,
           }
           appointments[returnObj.id].interview = returnObj.interview;
-          console.log("appointments[returnObj.id]", appointments[returnObj.id]);
+
           // calculate the state of spots based on the day
           const day = changeSpots(state, appointments, returnObj.id);
-          console.log("day", day);
+
           const days = [
             ...state.days,
           ]
           days[day.id - 1] = day;
-          console.log("days", days);
+
 
           dispatch({
             ...state,
