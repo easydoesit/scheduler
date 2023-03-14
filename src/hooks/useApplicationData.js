@@ -8,55 +8,21 @@ export default function useApplicationData() {
 
   const url = "ws://localhost:8001"
 
-  useEffect(() => {
-    const webSocket = new WebSocket(url);
-
-    webSocket.onopen = (event) => {
-      webSocket.send("ping");
-    }
-
-    webSocket.onmessage = (event) => {
-      console.log("event.data", event.data);
-      if (event.data !== 'pong') {
-        const returnObj = JSON.parse(event.data);
-        if (returnObj.type === SET_INTERVIEW) {
-          console.log("SET_INTERVIEW");
-          const appointments = {
-            ...state.appointments,
-          }
-          console.log("appointments", appointments);
-          appointments[returnObj.id].interview = returnObj.interview;
-          dispatch({
-            ...state,
-            appointments: appointments,
-            type: SET_INTERVIEW
-          });
-        }
-      }
-    }
-    return function cleanup() {
-      webSocket.close();
-    }
-
-
-  })
-
-
   const SET_DAY = "SET_DAY";
   const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
   const SET_INTERVIEW = "SET_INTERVIEW";
   // reducer brings in the original state and the action is an object
   const reducer = (state, action) => {
-    //console.log(action);
+
     switch (action.type) {
       case SET_DAY:
-        //console.log("state:", state, "action:", action)
+
         return {
           ...state,
           day: action.day
         }
       case SET_APPLICATION_DATA:
-        //console.log("SetApplicationData action", action);
+
         return {
           ...state,
           days: action.days,
@@ -64,7 +30,6 @@ export default function useApplicationData() {
           interviewers: action.interviewers,
         }
       case SET_INTERVIEW:
-        console.log("Set Interview Action", action);
         return {
           ...state,
           appointments: action.appointments,
@@ -108,7 +73,7 @@ export default function useApplicationData() {
     };
 
     // calculate the state of spots based on the day
-    const day = changeSpots(state, appointments);
+    const day = changeSpots(state, appointments, id);
     const days = [
       ...state.days,
     ]
@@ -138,7 +103,7 @@ export default function useApplicationData() {
     };
 
     // calculate the state of spots based on the day
-    const day = changeSpots(state, appointments);
+    const day = changeSpots(state, appointments, id);
     const days = [
       ...state.days,
     ]
@@ -178,6 +143,52 @@ export default function useApplicationData() {
       });
     },);
   }, [])
+
+  useEffect(() => {
+    const webSocket = new WebSocket(url);
+
+    webSocket.onopen = () => {
+      console.log("stateday 01 ", state.days)
+      webSocket.send("ping");
+    }
+    // once the message comes back from the server change it to a state that can update
+    // the interview.
+    webSocket.onmessage = (event) => {
+      console.log("stateday 02 ", state.days)
+      if (event.data !== 'pong') {
+        // what if we return only returnObj
+        // then
+        const returnObj = JSON.parse(event.data);
+        console.log("return", returnObj);
+        if (returnObj.type === SET_INTERVIEW) {
+          const appointments = {
+            ...state.appointments,
+          }
+          appointments[returnObj.id].interview = returnObj.interview;
+          console.log("appointments[returnObj.id]", appointments[returnObj.id]);
+          // calculate the state of spots based on the day
+          const day = changeSpots(state, appointments, returnObj.id);
+          console.log("day", day);
+          const days = [
+            ...state.days,
+          ]
+          days[day.id - 1] = day;
+          console.log("days", days);
+
+          dispatch({
+            ...state,
+            appointments: appointments, days,
+            type: SET_INTERVIEW
+          });
+        }
+      }
+    }
+    return function cleanup() {
+      if (webSocket.readyState === 1) {
+        webSocket.close();
+      }
+    }
+  })
 
   return { state, setDay, bookInterview, deleteInterview };
 }

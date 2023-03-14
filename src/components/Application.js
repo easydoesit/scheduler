@@ -7,7 +7,6 @@ import useApplicationData from "hooks/useApplicationData";
 import "components/Application.scss";
 
 export default function Application(props) {
-  console.log(props);
   // bring in the hook to manage state.
   const {
     state,
@@ -15,6 +14,9 @@ export default function Application(props) {
     bookInterview,
     deleteInterview
   } = useApplicationData();
+
+  console.log("state", state);
+
   // call imported helper function
   const dailyAppointments = getAppointmentsForDay(state, state.day);
 

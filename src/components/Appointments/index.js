@@ -21,24 +21,9 @@ export default function Appointment(props) {
   const ERROR_DELETE = "ERROR_DELETE";
   const interview = { ...props.interview }
 
-
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   )
-  console.log("reREnder", interview, mode);
-  // useEffect(() => {
-  //   console.log(interview, mode, props.time);
-  //   console.log("---------");
-  //   if (interview.interviewer && mode === EMPTY) {
-  //     transition(SHOW);
-  //   }
-  //   if ((interview === null || interview === {} || !interview) && mode === SHOW) {
-  //     transition(EMPTY);
-  //   }
-  // }, [interview, transition, mode]);
-
-
-  // name is the student name from the Form and interviewer is the ID of the Selected Inteviewer
 
   useEffect(() => {
     if (interview.interviewer && mode === EMPTY) {
@@ -49,7 +34,7 @@ export default function Appointment(props) {
       transition(EMPTY);
       return;
     }
-  }, [transition, props.interview]);
+  }, [transition, interview, mode]);
 
 
   const save = (name, interviewer) => {
