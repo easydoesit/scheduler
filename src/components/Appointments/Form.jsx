@@ -31,7 +31,10 @@ export default function Form(props) {
             }}
             data-testid="student-name-input"
           />
-        </form>
+          {student === "" && (   
+          <div className="warning">
+            Student name cannot be blank</div>)}
+          </form>
         <InterviewerList
           interviewers={props.interviewers}
           interviewer={interviewer}
@@ -42,7 +45,7 @@ export default function Form(props) {
       <section className="appointment__card-right">
         <section className="appointment__actions">
           <Button danger onClick={cancel}>Cancel</Button>
-          <Button confirm onClick={() => props.onSave(student, interviewer)}>Save</Button>
+          <Button confirm onClick={student && (() => props.onSave(student, interviewer))}>Save</Button>
         </section>
       </section>
     </main>

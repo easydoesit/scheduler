@@ -43,14 +43,14 @@ export default function Appointment(props) {
       interviewer
     }
     //must check that an interviewer has been selected otherwise errors
-    if (interview.interviewer) {
-      transition(SAVING);
-      props.bookInterview(props.id, interview)
-        .then(() => { transition(SHOW) })
-        .catch((error) => {
-          transition(ERROR_SAVE, true);
-        });
-    }
+    //if (interview.interviewer) {
+    transition(SAVING);
+    props.bookInterview(props.id, interview)
+      .then(() => { transition(SHOW) })
+      .catch((error) => {
+        transition(ERROR_SAVE, true);
+      });
+    //}
   }
 
   const onDelete = (id) => {
