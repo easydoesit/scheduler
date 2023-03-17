@@ -1,5 +1,5 @@
 import React from "react";
-import { render, cleanup, getByPlaceholderText, getByTestId, getByText } from "@testing-library/react";
+import { render, cleanup, getByPlaceholderText, getByTestId, getByText, queryByText } from "@testing-library/react";
 import Form from "components/Appointments/Form";
 
 afterEach(cleanup);
@@ -41,23 +41,39 @@ describe("Form", () => {
 
     /* 2. onSave is not called */
     const onSave = jest.fn();
+
     expect(onSave).not.toHaveBeenCalled();
   });
 
   it("validates that the interviewer cannot be null", () => {
     /* 3. validation is shown */
+    const { getByText } = render(
+      <Form interviewers={interviewers} />
+    )
+
     expect(getByText(/please select an interviewer/i)).toBeInTheDocument();
 
     /* 4. onSave is not called */
+    const onSave = jest.fn();
+
     expect(onSave).not.toHaveBeenCalled();
   });
 
   it("calls onSave function when the name is defined", () => {
     /* 5. validation is not shown */
+    const student = "Lydia Miller-Jones"
+    const interviewer = 1;
+
+    const { queryByText } = render(
+      <Form interviewers={interviewers} student={student} interviewer={interviewer} />
+    )
+
     expect(queryByText(/student name cannot be blank/i)).toBeNull();
     expect(queryByText(/please select an interviewer/i)).toBeNull();
 
     /* 6. onSave is called once*/
+    const onSave = jest.fn();
+    onSave(student, interviewer);
     expect(onSave).toHaveBeenCalledTimes(1);
 
     /* 7. onSave is called with the correct arguments */

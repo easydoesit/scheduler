@@ -34,6 +34,9 @@ export default function Form(props) {
           {student === "" && (   
           <div className="warning">
             Student name cannot be blank</div>)}
+          {!interviewer && (   
+          <div className="warning">
+            Please select an interviewer</div>)}
           </form>
         <InterviewerList
           interviewers={props.interviewers}
@@ -45,7 +48,7 @@ export default function Form(props) {
       <section className="appointment__card-right">
         <section className="appointment__actions">
           <Button danger onClick={cancel}>Cancel</Button>
-          <Button confirm onClick={student && (() => props.onSave(student, interviewer))}>Save</Button>
+          <Button confirm onClick={() => student && interviewer && (props.onSave(student, interviewer))}>Save</Button>
         </section>
       </section>
     </main>
