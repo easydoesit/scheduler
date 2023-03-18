@@ -15,7 +15,6 @@ export default function Application(props) {
     deleteInterview
   } = useApplicationData();
 
-  console.log(state);
   // call imported helper function
   const dailyAppointments = getAppointmentsForDay(state, state.day);
 
