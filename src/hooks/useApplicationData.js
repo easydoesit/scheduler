@@ -4,7 +4,6 @@ import { changeSpots } from "helpers/changeSpots";
 
 export default function useApplicationData() {
   // this is the host machine
-  const host = "http://localhost:8001";
 
   const url = "ws://localhost:8001"
 
@@ -37,7 +36,7 @@ export default function useApplicationData() {
         }
       default:
         throw new Error(
-          `Tried to reduce with unsopported action type: ${action.type}`
+          `Tried to reduce with unsupported action type: ${action.type}`
         );
     }
   }
@@ -80,7 +79,7 @@ export default function useApplicationData() {
     days[day.id - 1] = day;
 
     //update the database and setState
-    return axios.put(`${host}/api/appointments/${id}`, { interview })
+    return axios.put(`/api/appointments/${id}`, { interview })
       .then((response) => {
         dispatch({
           ...state,
@@ -110,7 +109,7 @@ export default function useApplicationData() {
     days[day.id - 1] = day;
 
     //update the database and set state
-    return axios.delete(`${host}/api/appointments/${id}`)
+    return axios.delete(`/api/appointments/${id}`)
       .then((response) => {
         //(study notes)  
         //this dispatches the things that need to change the state 
@@ -128,9 +127,9 @@ export default function useApplicationData() {
   // This is the initial render of the app before we modify the states
   useEffect(() => {
     Promise.all([
-      axios.get(`${host}/api/days`),
-      axios.get(`${host}/api/appointments`),
-      axios.get(`${host}/api/interviewers`)
+      axios.get(`/api/days`),
+      axios.get(`/api/appointments`),
+      axios.get(`/api/interviewers`)
     ]).then((all) => {
       //(study notes)  
       //this dispatches the things that need to change the state

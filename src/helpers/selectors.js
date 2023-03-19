@@ -28,7 +28,6 @@ export function getInterviewersForDay(state, day) {
 
     const filteredDays = state.days.filter(days => days.name === day);
     let appointmentsArr;
-
     if (filteredDays.length) {
       appointmentsArr = filteredDays[0].interviewers;
       appointmentsArr.map((appt) => {
