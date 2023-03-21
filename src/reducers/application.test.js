@@ -7,9 +7,9 @@ afterEach(cleanup);
 
 describe("Application Reducer", () => {
   it("throws an error with an unsupported type", () => {
-    //const check = reducer({}, { type: null });
 
-    expect(() => reducer({}, { type: null })).toThrowError(/Tried to reduce with unsupported action type/i);
+    expect(() => reducer({}, { type: null }))
+      .toThrowError(/Tried to reduce with unsupported action type/i);
 
   });
 })
