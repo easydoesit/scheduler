@@ -1,3 +1,5 @@
+// changeSpots takes in the current state, all the appointments and the id of the selected appointment.
+// returns thisDays object
 export function changeSpots(state, apps, appointmentID) {
 
   // get the day we are on
