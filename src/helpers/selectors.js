@@ -20,7 +20,7 @@ export function getAppointmentsForDay(state, day) {
 
   return slots;
 }
-
+// returns the currently available slots
 export function getInterviewersForDay(state, day) {
   const slots = [];
 
