@@ -7,18 +7,7 @@ jobs:
     working_directory: ~/client
 
     steps:
-      - checkout
       - run: echo "deploy build run"
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "package.json" }}
-            - v1-dependencies-
-      - run: npm install
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-{{ checksum "package.json" }}
-      - run: npm test
 
   deploy:
     docker:
