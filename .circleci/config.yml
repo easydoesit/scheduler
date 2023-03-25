@@ -1,15 +1,6 @@
 version: 2
 jobs:
-  build:
-    docker:
-      - image: cimg/node:19.7
-
-    working_directory: ~/client
-
-    steps:
-      - run: echo "deploy build run"
-
-  deploy:
+  print:
     docker:
       - image: cimg/node:19.7
 
@@ -20,4 +11,4 @@ jobs:
     version: 2
     test_and_deploy:
       jobs:
-        - deploy
+        - print
