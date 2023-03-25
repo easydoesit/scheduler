@@ -34,9 +34,6 @@ jobs:
           name: Push Master to Production
           command: |
             git push https://github.com/easydoesit/scheduler.git master:production
-      -run:
-          name: Complete
-          command: echo "Deploy Complete"
 
   workflows:
     version: 2
