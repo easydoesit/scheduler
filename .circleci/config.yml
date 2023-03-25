@@ -8,6 +8,7 @@ jobs:
 
     steps:
       - checkout
+      - run: echo "deploy build run"
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
