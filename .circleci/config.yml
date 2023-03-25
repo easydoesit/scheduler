@@ -40,9 +40,9 @@ workflows:
   test_and_deploy:
     jobs:
       - build:
-        filters:
-          branches:
-            ignore: production
+          filters:
+            branches:
+              ignore: production
       - deploy:
           filters:
             branches:
