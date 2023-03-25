@@ -20,9 +20,6 @@ jobs:
       - run: npm test
 
   deploy:
-    docker:
-      - image: circleci/node:10.16
-
     machine:
       enabled: true
 
@@ -36,7 +33,7 @@ jobs:
       - run:
           name: Push Master to Production
           command: |
-            git push https://github.com/easydoesit/scheduler.git master:production
+            git push https://github.com/easydoesit/scheduler.git production
 
   workflows:
     version: 2
