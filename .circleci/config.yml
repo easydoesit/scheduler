@@ -30,7 +30,7 @@ jobs:
           fingerprints:
             - "ff:dc:cc:74:b5:18:22:56:5c:57:e1:ae:6b:9a:36:d1"
       - checkout
-      - run:
+      - run: echo "this is the deploy job"
           name: Push Master to Production
           command: |
             git push https://github.com/easydoesit/scheduler.git master:production
