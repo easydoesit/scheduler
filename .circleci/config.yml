@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: circleci/node:19.7
+      - image: cimg/node:19.7
 
     working_directory: ~/client
 
