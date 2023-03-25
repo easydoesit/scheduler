@@ -20,6 +20,9 @@ jobs:
       - run: npm test
 
   deploy:
+    docker:
+      - image: circleci/node:10.16
+
     machine:
       enabled: true
 
