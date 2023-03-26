@@ -7,7 +7,7 @@ export default function useApplicationData() {
   // this is the host machine
 
   const url = process.env.REACT_APP_WEBSOCKET_URL;
-
+  console.log('websocket url:', url);
   // State object for the entire app
   const [state, dispatch] = useReducer(reducer, {
     day: "Monday",
