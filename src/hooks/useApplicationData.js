@@ -6,11 +6,7 @@ import reducer, { SET_DAY, SET_APPLICATION_DATA, SET_INTERVIEW } from "../reduce
 export default function useApplicationData() {
   // this is the host machine
 
-  if (process.env.REACT_APP_API_WEBSOCKET_URL) {
-    url = process.env.REACT_APP_WEBSOCKET_URL;
-  }
-
-  //const url = "ws://localhost:8001"
+  const url = "ws://localhost:8001"
 
   // State object for the entire app
   const [state, dispatch] = useReducer(reducer, {
